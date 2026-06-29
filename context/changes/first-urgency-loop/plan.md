@@ -190,9 +190,9 @@ Brak nowych migracji — schemat z F-01 wystarcza.
 ### Phase 1: Silnik pilności + typy + unit-testy
 
 #### Automated
-- [ ] 1.1 Unit-testy silnika przechodzą: `npm test`
-- [ ] 1.2 Typecheck przechodzi: `npx astro check`
-- [ ] 1.3 Linting przechodzi: `npm run lint`
+- [x] 1.1 Unit-testy silnika przechodzą: `npm test`
+- [x] 1.2 Typecheck przechodzi: `npx astro check`
+- [x] 1.3 Linting przechodzi: `npm run lint`
 
 ### Phase 2: Dane + API + UI
 
