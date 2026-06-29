@@ -192,22 +192,22 @@ Migracja jest lokalna; na hostowany Supabase trafi później przez `supabase db 
 ### Phase 1: Lokalny Supabase + migracja schematu
 
 #### Automated
-- [x] 1.1 Migracja stosuje się czysto: `npm run db:reset`
-- [x] 1.2 Linting przechodzi: `npm run lint`
+- [x] 1.1 Migracja stosuje się czysto: `npm run db:reset` — 6babd17
+- [x] 1.2 Linting przechodzi: `npm run lint` — 6babd17
 
 #### Manual
-- [x] 1.3 `npm run db:start` podnosi lokalny stack Supabase (Docker)
-- [x] 1.4 Tabele `profiles` i `items` istnieją w lokalnej bazie
-- [x] 1.5 Po rejestracji użytkownika pojawia się wiersz w `profiles` z `plan = 'free'`
+- [x] 1.3 `npm run db:start` podnosi lokalny stack Supabase (Docker) — 6babd17
+- [x] 1.4 Tabele `profiles` i `items` istnieją w lokalnej bazie — 6babd17
+- [x] 1.5 Po rejestracji użytkownika pojawia się wiersz w `profiles` z `plan = 'free'` — 6babd17
 
 ### Phase 2: Typy TS + weryfikacja RLS
 
 #### Automated
-- [ ] 2.1 Typy generują się bez błędu: `npm run db:types`
-- [ ] 2.2 Typecheck przechodzi: `npx astro check`
-- [ ] 2.3 Linting przechodzi: `npm run lint`
-- [ ] 2.4 Build przechodzi: `npm run build`
+- [x] 2.1 Typy generują się bez błędu: `npm run db:types`
+- [x] 2.2 Typecheck przechodzi: `npx astro check`
+- [x] 2.3 Linting przechodzi: `npm run lint`
+- [x] 2.4 Build przechodzi: `npm run build`
 
 #### Manual
-- [ ] 2.5 RLS: użytkownik B nie widzi ani nie zmienia pozycji użytkownika A
-- [ ] 2.6 Wstawienie pozycji z cudzym `user_id` jest odrzucane
+- [x] 2.5 RLS: użytkownik B nie widzi ani nie zmienia pozycji użytkownika A
+- [x] 2.6 Wstawienie pozycji z cudzym `user_id` jest odrzucane

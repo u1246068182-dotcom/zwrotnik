@@ -40,6 +40,14 @@ begin
   delete from public.items where id = item;
   get diagnostics cnt = row_count;
   assert cnt = 0, 'B NIE powinien usunac pozycji A, usunal ' || cnt;
+  -- B probuje wstawic pozycje z cudzym user_id (A) -> RLS with check odrzuca
+  begin
+    insert into public.items (user_id, nazwa, kwota, data_odniesienia, typ_okna)
+      values (a, 'B-hack', 1, current_date, 'zwrot');
+    assert false, 'B NIE powinien moc wstawic pozycji z cudzym user_id';
+  exception when insufficient_privilege or check_violation then
+    null; -- oczekiwane: polityka insert odrzuca cudzy user_id
+  end;
   reset role;
 
   -- jako A: pozycja nadal istnieje, nietknieta
@@ -49,6 +57,6 @@ begin
   assert cnt = 1, 'A powinien nadal widziec swoja pozycje nietknieta, widzi ' || cnt;
   reset role;
 
-  raise notice 'RLS PASS: A=1, B=0, B bez edycji/usuwania, dane A nietkniete';
+  raise notice 'RLS PASS: A=1, B=0, B bez edycji/usuwania/wstawiania-cudzych, dane A nietkniete';
 end $$;
 rollback;

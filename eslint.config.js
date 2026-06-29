@@ -70,10 +70,20 @@ const astroConfig = tseslint.config({
 
 export default tseslint.config(
   includeIgnoreFile(gitignorePath),
+  // Wygenerowany przez `npm run db:types` — nie lintujemy (regeneracja go odtwarza).
+  { ignores: ["src/db/database.types.ts"] },
   baseConfig,
   reactConfig,
   eslintPluginAstro.configs["flat/recommended"],
   ...eslintPluginAstro.configs["flat/jsx-a11y-recommended"],
   astroConfig,
+  // Kod testowy: rozluźniamy nadgorliwe reguły typowe dla setupu/asercji testów.
+  {
+    files: ["tests/**/*.ts"],
+    rules: {
+      "@typescript-eslint/no-non-null-assertion": "off",
+      "@typescript-eslint/no-unnecessary-condition": "off",
+    },
+  },
   eslintPluginPrettier,
 );
