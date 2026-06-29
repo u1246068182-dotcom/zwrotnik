@@ -34,7 +34,7 @@ sekwencjonowany najwcześniej, jak pozwala fundament danych.
 
 | ID   | Change ID          | Outcome (user can …)                                                              | Prerequisites | PRD refs                                            | Status   |
 | ---- | ------------------ | --------------------------------------------------------------------------------- | ------------- | --------------------------------------------------- | -------- |
-| F-01 | items-schema-rls   | (foundation) tabela `items` + `profiles.plan` z RLS dopuszczającym tylko własne   | —             | FR-002, Access Control                              | ready    |
+| F-01 | items-schema-rls   | (foundation) tabela `items` + `profiles.plan` z RLS dopuszczającym tylko własne   | —             | FR-002, Access Control                              | done     |
 | S-01 | first-urgency-loop | dodać zakup (zwrot) i zobaczyć go na liście wg pilności z dniami, kwotą i sumą     | F-01          | US-01, FR-001, FR-002, FR-003, FR-004, FR-005, FR-006, FR-007 | proposed |
 | S-02 | all-window-types   | dodać rękojmię i subskrypcję; status liczy się poprawnie dla każdego typu okna     | S-01          | FR-003, FR-004, FR-012                              | proposed |
 | S-03 | manage-items       | edytować, usunąć i oznaczyć pozycję jako „Załatwione"                              | S-01          | US-02, FR-008, FR-009, FR-010                       | proposed |
@@ -65,7 +65,7 @@ i ich NIE odtwarzają.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Bez schematu i RLS żaden slice nie ma gdzie zapisać pozycji ani jak wymusić izolację per użytkownik; to jedyny brakujący fundament (auth/deploy/CI obecne w baseline), więc idzie pierwszy.
-- **Status:** ready
+- **Status:** done
 
 ## Slices
 
@@ -145,4 +145,4 @@ i ich NIE odtwarzają.
 
 ## Done
 
-(Pusto na starcie — `/10x-archive` dopisuje wpisy tutaj po archiwizacji zmiany.)
+- **F-01: (foundation) tabela `items` + `profiles.plan` z RLS (tylko własne rekordy)** — Archived 2026-06-29 → `context/archive/2026-06-29-items-schema-rls/`. Lesson: —.
