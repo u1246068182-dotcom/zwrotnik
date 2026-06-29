@@ -203,11 +203,11 @@ Migracja jest lokalna; na hostowany Supabase trafi później przez `supabase db 
 ### Phase 2: Typy TS + weryfikacja RLS
 
 #### Automated
-- [x] 2.1 Typy generują się bez błędu: `npm run db:types`
-- [x] 2.2 Typecheck przechodzi: `npx astro check`
-- [x] 2.3 Linting przechodzi: `npm run lint`
-- [x] 2.4 Build przechodzi: `npm run build`
+- [x] 2.1 Typy generują się bez błędu: `npm run db:types` — 9ad40b6
+- [x] 2.2 Typecheck przechodzi: `npx astro check` — 9ad40b6
+- [x] 2.3 Linting przechodzi: `npm run lint` — 9ad40b6
+- [x] 2.4 Build przechodzi: `npm run build` — 9ad40b6
 
 #### Manual
-- [x] 2.5 RLS: użytkownik B nie widzi ani nie zmienia pozycji użytkownika A
-- [x] 2.6 Wstawienie pozycji z cudzym `user_id` jest odrzucane
+- [x] 2.5 RLS: użytkownik B nie widzi ani nie zmienia pozycji użytkownika A — 9ad40b6
+- [x] 2.6 Wstawienie pozycji z cudzym `user_id` jest odrzucane — 9ad40b6

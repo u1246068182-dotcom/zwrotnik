@@ -1,7 +1,7 @@
 ---
 change_id: items-schema-rls
 title: Schemat danych pozycji + RLS per użytkownik
-status: implementing
+status: implemented
 created: 2026-06-29
 updated: 2026-06-29
 archived_at: null
