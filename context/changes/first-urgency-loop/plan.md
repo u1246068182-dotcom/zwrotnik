@@ -197,13 +197,13 @@ Brak nowych migracji — schemat z F-01 wystarcza.
 ### Phase 2: Dane + API + UI
 
 #### Automated
-- [x] 2.1 Typecheck przechodzi: `npx astro check`
-- [x] 2.2 Linting przechodzi: `npm run lint`
-- [x] 2.3 Build przechodzi: `npm run build`
-- [x] 2.4 Unit-testy nadal przechodzą: `npm test`
+- [x] 2.1 Typecheck przechodzi: `npx astro check` — df8eaac
+- [x] 2.2 Linting przechodzi: `npm run lint` — df8eaac
+- [x] 2.3 Build przechodzi: `npm run build` — df8eaac
+- [x] 2.4 Unit-testy nadal przechodzą: `npm test` — df8eaac
 
 #### Manual
-- [x] 2.5 Dodanie pozycji 3 typów → właściwy kubełek, dni i kwota poprawne
-- [x] 2.6 Suma „Zagrożone" zgadza się (pilne + wkrótce)
-- [x] 2.7 Błędne dane pokazują komunikat walidacji, pozycja nie powstaje
-- [x] 2.8 Pusta lista pokazuje zachętę do dodania
+- [x] 2.5 Dodanie pozycji 3 typów → właściwy kubełek, dni i kwota poprawne — df8eaac
+- [x] 2.6 Suma „Zagrożone" zgadza się (pilne + wkrótce) — df8eaac
+- [x] 2.7 Błędne dane pokazują komunikat walidacji, pozycja nie powstaje — df8eaac
+- [x] 2.8 Pusta lista pokazuje zachętę do dodania — df8eaac
