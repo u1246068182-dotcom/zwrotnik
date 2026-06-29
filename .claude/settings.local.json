@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Skill(10x-shape)",
+      "Skill(10x-prd)"
+    ]
+  }
+}
