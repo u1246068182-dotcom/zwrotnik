@@ -1,27 +1,117 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import { createClient } from "@/lib/supabase";
+import { listActiveForUser } from "@/lib/services/items";
+import { buildUrgencyView } from "@/lib/urgency";
+import type { UrgencyStatus } from "@/types";
 
 const { user } = Astro.locals;
+const supabase = createClient(Astro.request.headers, Astro.cookies);
+const items = supabase ? await listActiveForUser(supabase) : [];
+const view = buildUrgencyView(items, new Date());
+const error = Astro.url.searchParams.get("error");
+
+const BUCKETS: { key: UrgencyStatus; label: string; tone: string }[] = [
+  { key: "pilne", label: "🔴 Pilne", tone: "border-red-400/40" },
+  { key: "wkrotce", label: "🟡 Wkrótce", tone: "border-amber-400/40" },
+  { key: "spokojnie", label: "🟢 Spokojnie", tone: "border-emerald-400/40" },
+  { key: "minelo", label: "⚪ Minęło", tone: "border-white/15" },
+];
+
+function fmtPln(n: number): string {
+  return n.toLocaleString("pl-PL", { style: "currency", currency: "PLN" });
+}
+function dniLabel(d: number): string {
+  if (d < 0) return `${Math.abs(d)} dni temu`;
+  if (d === 0) return "dziś";
+  if (d === 1) return "jutro";
+  return `za ${d} dni`;
+}
+const isEmpty = items.length === 0;
 ---
 
-<Layout title="Dashboard">
-  <div class="bg-cosmic flex min-h-screen items-center justify-center p-4">
-    <div class="rounded-2xl border border-white/10 bg-white/10 p-8 text-center text-white backdrop-blur-xl">
-      <h1 class="mb-4 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-3xl font-bold text-transparent">
-        Dashboard
-      </h1>
-      <p class="text-blue-100/80">
-        Welcome, <span class="font-semibold text-white">{user?.email}</span>
-      </p>
-      <p class="mt-2 text-sm text-blue-100/50">This page is only for authenticated users.</p>
-      <form method="POST" action="/api/auth/signout" class="mt-6">
-        <button
-          type="submit"
-          class="rounded-lg border border-white/20 bg-white/10 px-4 py-2 text-sm transition-colors hover:bg-white/20"
-        >
-          Sign out
-        </button>
+<Layout title="Zwrotnik">
+  <main class="mx-auto max-w-2xl p-4 sm:p-6">
+    <header class="mb-6 flex items-center justify-between gap-4">
+      <div>
+        <h1 class="text-2xl font-bold">Zwrotnik</h1>
+        <p class="text-sm text-gray-500">{user?.email}</p>
+      </div>
+      <form method="POST" action="/api/auth/signout">
+        <button type="submit" class="rounded-lg border px-3 py-1.5 text-sm hover:bg-gray-100">Wyloguj</button>
       </form>
+    </header>
+
+    <div class="mb-6 rounded-xl border bg-gray-50 p-4">
+      <span class="text-sm text-gray-500">Zagrożone</span>
+      <p class="text-3xl font-bold">{fmtPln(view.sumaZagrozona)}</p>
     </div>
-  </div>
+
+    {error && <p class="mb-4 rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+
+    <form method="POST" action="/api/items" class="mb-8 grid gap-3 rounded-xl border p-4 sm:grid-cols-2">
+      <label class="flex flex-col text-sm sm:col-span-2">
+        Nazwa
+        <input name="nazwa" required class="mt-1 rounded-lg border px-3 py-2" placeholder="np. Słuchawki Sony" />
+      </label>
+      <label class="flex flex-col text-sm">
+        Sklep (opcjonalnie)
+        <input name="sklep" class="mt-1 rounded-lg border px-3 py-2" placeholder="np. Media Expert" />
+      </label>
+      <label class="flex flex-col text-sm">
+        Kwota (zł)
+        <input name="kwota" type="number" step="0.01" min="0.01" required class="mt-1 rounded-lg border px-3 py-2" />
+      </label>
+      <label class="flex flex-col text-sm">
+        Data zakupu / odnowienia
+        <input name="data_odniesienia" type="date" required class="mt-1 rounded-lg border px-3 py-2" />
+      </label>
+      <label class="flex flex-col text-sm">
+        Typ okna
+        <select name="typ_okna" required class="mt-1 rounded-lg border px-3 py-2">
+          <option value="zwrot">Zwrot (14 dni)</option>
+          <option value="rekojmia">Rękojmia (2 lata)</option>
+          <option value="subskrypcja">Subskrypcja (data odnowienia)</option>
+        </select>
+      </label>
+      <button
+        type="submit"
+        class="rounded-lg bg-gray-900 px-4 py-2 font-medium text-white hover:bg-gray-700 sm:col-span-2"
+      >
+        Dodaj pozycję
+      </button>
+    </form>
+
+    {
+      isEmpty ? (
+        <div class="rounded-xl border border-dashed p-8 text-center text-gray-500">
+          <p class="font-medium">Brak pozycji.</p>
+          <p class="text-sm">Dodaj pierwszy zakup powyżej, a zobaczysz, ile dni i złotych jest zagrożonych.</p>
+        </div>
+      ) : (
+        <div class="space-y-6">
+          {BUCKETS.filter((b) => view.buckets[b.key].length > 0).map((b) => (
+            <section>
+              <h2 class="mb-2 text-sm font-semibold text-gray-600">{b.label}</h2>
+              <ul class="space-y-2">
+                {view.buckets[b.key].map((it) => (
+                  <li
+                    class:list={`flex items-center justify-between rounded-lg border-l-4 bg-white p-3 shadow-sm ${b.tone}`}
+                  >
+                    <div>
+                      <p class="font-medium">{it.nazwa}</p>
+                      <p class="text-xs text-gray-500">
+                        {it.sklep ?? "—"} · {dniLabel(it.dniDoZamkniecia)}
+                      </p>
+                    </div>
+                    <span class="font-semibold">{fmtPln(it.kwota)}</span>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          ))}
+        </div>
+      )
+    }
+  </main>
 </Layout>

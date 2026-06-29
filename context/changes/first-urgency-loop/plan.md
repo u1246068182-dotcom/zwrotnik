@@ -190,20 +190,20 @@ Brak nowych migracji — schemat z F-01 wystarcza.
 ### Phase 1: Silnik pilności + typy + unit-testy
 
 #### Automated
-- [x] 1.1 Unit-testy silnika przechodzą: `npm test`
-- [x] 1.2 Typecheck przechodzi: `npx astro check`
-- [x] 1.3 Linting przechodzi: `npm run lint`
+- [x] 1.1 Unit-testy silnika przechodzą: `npm test` — 0d34b4f
+- [x] 1.2 Typecheck przechodzi: `npx astro check` — 0d34b4f
+- [x] 1.3 Linting przechodzi: `npm run lint` — 0d34b4f
 
 ### Phase 2: Dane + API + UI
 
 #### Automated
-- [ ] 2.1 Typecheck przechodzi: `npx astro check`
-- [ ] 2.2 Linting przechodzi: `npm run lint`
-- [ ] 2.3 Build przechodzi: `npm run build`
-- [ ] 2.4 Unit-testy nadal przechodzą: `npm test`
+- [x] 2.1 Typecheck przechodzi: `npx astro check`
+- [x] 2.2 Linting przechodzi: `npm run lint`
+- [x] 2.3 Build przechodzi: `npm run build`
+- [x] 2.4 Unit-testy nadal przechodzą: `npm test`
 
 #### Manual
-- [ ] 2.5 Dodanie pozycji 3 typów → właściwy kubełek, dni i kwota poprawne
-- [ ] 2.6 Suma „Zagrożone" zgadza się (pilne + wkrótce)
-- [ ] 2.7 Błędne dane pokazują komunikat walidacji, pozycja nie powstaje
-- [ ] 2.8 Pusta lista pokazuje zachętę do dodania
+- [x] 2.5 Dodanie pozycji 3 typów → właściwy kubełek, dni i kwota poprawne
+- [x] 2.6 Suma „Zagrożone" zgadza się (pilne + wkrótce)
+- [x] 2.7 Błędne dane pokazują komunikat walidacji, pozycja nie powstaje
+- [x] 2.8 Pusta lista pokazuje zachętę do dodania
