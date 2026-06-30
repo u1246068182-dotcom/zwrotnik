@@ -1,6 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/db/database.types";
+import { updateItem, deleteItem, setDone, listDoneForUser } from "@/lib/services/items";
 
 // Test integracyjny izolacji RLS dla tabeli `items` (ryzyko R2 / IDOR z test-planu).
 // Samodzielny: tworzy dwóch userów przez admin API, więc nie wymaga ręcznej rejestracji.
@@ -89,5 +90,63 @@ describe("RLS items isolation (R2 / IDOR)", () => {
   it("pozycja A pozostaje nietknięta", async () => {
     const still = await userA.client.from("items").select("nazwa").eq("id", itemId).single();
     expect(still.data?.nazwa).toBe("Test A");
+  });
+});
+
+// Mutacje przez funkcje serwisu (S-03) — realne ścieżki edycji/usuwania/Załatwione.
+describe("RLS mutacji przez serwis (S-03)", () => {
+  let itemId: string;
+
+  beforeAll(async () => {
+    const inserted = await userA.client
+      .from("items")
+      .insert({ user_id: userA.id, nazwa: "Serwis A", kwota: 200, data_odniesienia: "2026-06-29", typ_okna: "zwrot" })
+      .select()
+      .single();
+    if (inserted.error || !inserted.data) throw inserted.error ?? new Error("brak pozycji");
+    itemId = inserted.data.id;
+  });
+
+  it("B nie zmieni pozycji A przez updateItem (0 wierszy, dane bez zmian)", async () => {
+    await updateItem(userB.client, itemId, {
+      nazwa: "HACK",
+      kwota: 1,
+      data_odniesienia: "2026-06-29",
+      typ_okna: "zwrot",
+    });
+    const still = await userA.client.from("items").select("nazwa, kwota").eq("id", itemId).single();
+    expect(still.data?.nazwa).toBe("Serwis A");
+    expect(still.data?.kwota).toBe(200);
+  });
+
+  it("B nie oznaczy pozycji A jako Załatwione przez setDone", async () => {
+    await setDone(userB.client, itemId, true);
+    const still = await userA.client.from("items").select("status_zalatwione").eq("id", itemId).single();
+    expect(still.data?.status_zalatwione).toBe(false);
+  });
+
+  it("B nie usunie pozycji A przez deleteItem", async () => {
+    await deleteItem(userB.client, itemId);
+    const still = await userA.client.from("items").select("id").eq("id", itemId).maybeSingle();
+    expect(still.data).not.toBeNull();
+  });
+
+  it("A może edytować własną pozycję przez updateItem", async () => {
+    const res = await updateItem(userA.client, itemId, {
+      nazwa: "Serwis A v2",
+      kwota: 250,
+      data_odniesienia: "2026-06-29",
+      typ_okna: "zwrot",
+    });
+    expect(res.error).toBeUndefined();
+    const still = await userA.client.from("items").select("nazwa, kwota").eq("id", itemId).single();
+    expect(still.data?.nazwa).toBe("Serwis A v2");
+    expect(still.data?.kwota).toBe(250);
+  });
+
+  it("A oznacza Załatwione → pozycja trafia na listę załatwionych", async () => {
+    await setDone(userA.client, itemId, true);
+    const done = await listDoneForUser(userA.client);
+    expect(done.some((it) => it.id === itemId)).toBe(true);
   });
 });

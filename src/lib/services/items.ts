@@ -29,6 +29,53 @@ export async function listActiveForUser(supabase: DbClient): Promise<Item[]> {
   return data;
 }
 
+/** Załatwione pozycje użytkownika (RLS ogranicza wynik do zalogowanego). */
+export async function listDoneForUser(supabase: DbClient): Promise<Item[]> {
+  const { data, error } = await supabase
+    .from("items")
+    .select("*")
+    .eq("status_zalatwione", true)
+    .order("created_at", { ascending: false });
+  if (error) throw new Error(error.message);
+  return data;
+}
+
+/** Waliduje i edytuje pozycję. RLS wymusza, że można zmienić tylko własną. */
+export async function updateItem(supabase: DbClient, id: string, raw: unknown): Promise<{ error?: string }> {
+  const parsed = itemInputSchema.safeParse(raw);
+  if (!parsed.success) {
+    return { error: parsed.error.issues[0]?.message ?? "Nieprawidłowe dane" };
+  }
+  const input = parsed.data;
+  const { error } = await supabase
+    .from("items")
+    .update({
+      nazwa: input.nazwa,
+      sklep: input.sklep ?? null,
+      kwota: input.kwota,
+      data_odniesienia: input.data_odniesienia,
+      typ_okna: input.typ_okna,
+      dlugosc_okna_dni: input.dlugosc_okna_dni ?? null,
+    })
+    .eq("id", id);
+  if (error) return { error: error.message };
+  return {};
+}
+
+/** Usuwa pozycję. RLS wymusza, że można usunąć tylko własną. */
+export async function deleteItem(supabase: DbClient, id: string): Promise<{ error?: string }> {
+  const { error } = await supabase.from("items").delete().eq("id", id);
+  if (error) return { error: error.message };
+  return {};
+}
+
+/** Ustawia flagę „Załatwione" (soft-hide). RLS wymusza własność. */
+export async function setDone(supabase: DbClient, id: string, done: boolean): Promise<{ error?: string }> {
+  const { error } = await supabase.from("items").update({ status_zalatwione: done }).eq("id", id);
+  if (error) return { error: error.message };
+  return {};
+}
+
 /** Waliduje i tworzy nową pozycję dla użytkownika. Zwraca komunikat błędu albo nic. */
 export async function createItem(supabase: DbClient, userId: string, raw: unknown): Promise<{ error?: string }> {
   const parsed = itemInputSchema.safeParse(raw);
