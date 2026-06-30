@@ -155,21 +155,21 @@ Wystawienie operacji użytkownikowi: strona edycji, przyciski przy pozycjach, se
 ### Phase 1: Serwis mutacji + API route + testy
 
 #### Automated
-- [x] 1.1 Unit-testy przechodzą: `npm run test:unit`
-- [x] 1.2 Integration-testy przechodzą lokalnie: `npm run test:integration`
-- [x] 1.3 Typecheck przechodzi: `npx astro check`
-- [x] 1.4 Linting przechodzi: `npm run lint`
-- [x] 1.5 Build przechodzi: `npm run build`
+- [x] 1.1 Unit-testy przechodzą: `npm run test:unit` — 09c647a
+- [x] 1.2 Integration-testy przechodzą lokalnie: `npm run test:integration` — 09c647a
+- [x] 1.3 Typecheck przechodzi: `npx astro check` — 09c647a
+- [x] 1.4 Linting przechodzi: `npm run lint` — 09c647a
+- [x] 1.5 Build przechodzi: `npm run build` — 09c647a
 
 ### Phase 2: UI — strona edycji + akcje na dashboardzie
 
 #### Automated
-- [ ] 2.1 Typecheck przechodzi: `npx astro check`
-- [ ] 2.2 Linting przechodzi: `npm run lint`
-- [ ] 2.3 Build przechodzi: `npm run build`
+- [x] 2.1 Typecheck przechodzi: `npx astro check`
+- [x] 2.2 Linting przechodzi: `npm run lint`
+- [x] 2.3 Build przechodzi: `npm run build`
 
 #### Manual
-- [ ] 2.4 Edycja kwoty/daty/typu zmienia status/dni/kwotę na liście i sumę „Zagrożone"
-- [ ] 2.5 „Załatwione" usuwa z aktywnej listy/sumy i pokazuje w sekcji „Załatwione"; „Przywróć" wraca pozycję
-- [ ] 2.6 „Usuń" po potwierdzeniu kasuje pozycję; anulowanie `confirm` nic nie zmienia
-- [ ] 2.7 Wejście na `/items/[cudzy-id]/edit` nie pokazuje cudzej pozycji
+- [x] 2.4 Edycja kwoty/daty/typu zmienia status/dni/kwotę na liście i sumę „Zagrożone"
+- [x] 2.5 „Załatwione" usuwa z aktywnej listy/sumy i pokazuje w sekcji „Załatwione"; „Przywróć" wraca pozycję
+- [x] 2.6 „Usuń" po potwierdzeniu kasuje pozycję; anulowanie `confirm` nic nie zmienia
+- [x] 2.7 Wejście na `/items/[cudzy-id]/edit` nie pokazuje cudzej pozycji
