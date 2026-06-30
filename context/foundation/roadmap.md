@@ -38,7 +38,7 @@ sekwencjonowany najwcześniej, jak pozwala fundament danych.
 | S-01 | first-urgency-loop | dodać zakup (zwrot) i zobaczyć go na liście wg pilności z dniami, kwotą i sumą     | F-01          | US-01, FR-001, FR-002, FR-003, FR-004, FR-005, FR-006, FR-007 | done     |
 | S-02 | all-window-types   | dodać rękojmię i subskrypcję; status liczy się poprawnie dla każdego typu okna     | S-01          | FR-003, FR-004, FR-012                              | done (w S-01) |
 | S-03 | manage-items       | edytować, usunąć i oznaczyć pozycję jako „Załatwione"                              | S-01          | US-02, FR-008, FR-009, FR-010                       | proposed |
-| S-04 | free-limit-upsell  | przy 30 pozycjach zobaczyć komunikat o limicie przy próbie dodania kolejnej         | S-01          | FR-011                                              | proposed |
+| S-04 | free-limit-upsell  | przy 30 pozycjach zobaczyć komunikat o limicie przy próbie dodania kolejnej         | S-01          | FR-011                                              | done |
 
 ## Baseline
 
@@ -117,7 +117,7 @@ i ich NIE odtwarzają.
 - **Blockers:** —
 - **Unknowns:** —
 - **Risk:** Miękki limit (komunikat), bez płatności; najmniejszy slice i najłatwiejszy do Parkowania, jeśli czas ciśnie (main_goal: speed).
-- **Status:** proposed
+- **Status:** done
 
 ## Backlog Handoff
 
@@ -148,3 +148,4 @@ i ich NIE odtwarzają.
 - **F-01: (foundation) tabela `items` + `profiles.plan` z RLS (tylko własne rekordy)** — Archived 2026-06-29 → `context/archive/2026-06-29-items-schema-rls/`. Lesson: —.
 - **S-01: dodawanie pozycji + silnik pilności (lista wg pilności z sumą)** — Archived 2026-06-30 → `context/archive/2026-06-29-first-urgency-loop/`. Lesson: —.
 - **S-02: wszystkie typy okien** — Zrealizowane w ramach S-01 (formularz + silnik obsługują zwrot/rękojmię/subskrypcję). Lesson: świadoma decyzja zakresu w planowaniu S-01.
+- **S-04: Limit planu free + komunikat** — Archived 2026-06-30 → `context/archive/2026-06-30-free-limit-upsell/`. Lesson: —.

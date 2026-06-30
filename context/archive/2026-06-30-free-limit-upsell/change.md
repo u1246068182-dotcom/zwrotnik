@@ -1,10 +1,10 @@
 ---
 change_id: free-limit-upsell
 title: Limit planu free (30 pozycji) + komunikat
-status: implemented
+status: archived
 created: 2026-06-30
 updated: 2026-06-30
-archived_at: null
+archived_at: 2026-06-30T20:47:20Z
 ---
 
 ## Notes
