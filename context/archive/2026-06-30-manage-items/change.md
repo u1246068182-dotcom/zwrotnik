@@ -1,10 +1,10 @@
 ---
 change_id: manage-items
 title: Zarządzanie pozycjami (edycja / usuwanie / Załatwione)
-status: implemented
+status: archived
 created: 2026-06-30
 updated: 2026-06-30
-archived_at: null
+archived_at: 2026-06-30T21:14:00Z
 ---
 
 ## Notes
