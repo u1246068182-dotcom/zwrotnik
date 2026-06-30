@@ -1,10 +1,10 @@
 ---
 change_id: first-urgency-loop
 title: Dodawanie pozycji + silnik pilności (north star S-01)
-status: implemented
+status: archived
 created: 2026-06-29
-updated: 2026-06-29
-archived_at: null
+updated: 2026-06-30
+archived_at: 2026-06-30T20:27:36Z
 ---
 
 ## Notes
