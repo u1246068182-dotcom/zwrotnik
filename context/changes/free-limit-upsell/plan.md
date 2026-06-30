@@ -95,10 +95,10 @@ wspomina limit 30 i że odblokowanie (9,99 zł) będzie dostępne wkrótce.
 ### Phase 1: Limit planu free + komunikat
 
 #### Automated
-- [ ] 1.1 Unit-testy przechodzą: `npm run test:unit`
-- [ ] 1.2 Typecheck przechodzi: `npx astro check`
-- [ ] 1.3 Linting przechodzi: `npm run lint`
-- [ ] 1.4 Build przechodzi: `npm run build`
+- [x] 1.1 Unit-testy przechodzą: `npm run test:unit`
+- [x] 1.2 Typecheck przechodzi: `npx astro check`
+- [x] 1.3 Linting przechodzi: `npm run lint`
+- [x] 1.4 Build przechodzi: `npm run build`
 
 #### Manual
-- [ ] 1.5 Przy 30 aktywnych pozycjach 31. pokazuje komunikat o limicie, pozycja nie powstaje
+- [x] 1.5 Przy 30 aktywnych pozycjach 31. pokazuje komunikat o limicie, pozycja nie powstaje

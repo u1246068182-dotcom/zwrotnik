@@ -2,6 +2,7 @@ import { z } from "zod";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/db/database.types";
 import type { Item } from "@/types";
+import { isOverFreeLimit } from "@/lib/plan";
 
 type DbClient = SupabaseClient<Database>;
 
@@ -35,6 +36,19 @@ export async function createItem(supabase: DbClient, userId: string, raw: unknow
     return { error: parsed.error.issues[0]?.message ?? "Nieprawidłowe dane" };
   }
   const input = parsed.data;
+
+  // limit darmowego planu (egzekwowanie miękkie — komunikat, bez płatności)
+  const { data: profile } = await supabase.from("profiles").select("plan").eq("id", userId).single();
+  const { count } = await supabase
+    .from("items")
+    .select("*", { count: "exact", head: true })
+    .eq("status_zalatwione", false);
+  if (isOverFreeLimit(profile?.plan ?? "free", count ?? 0)) {
+    return {
+      error: "Osiągnięto limit 30 pozycji w planie darmowym. Odblokowanie więcej (9,99 zł) będzie dostępne wkrótce.",
+    };
+  }
+
   const { error } = await supabase.from("items").insert({
     user_id: userId,
     nazwa: input.nazwa,
