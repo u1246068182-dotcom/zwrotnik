@@ -164,12 +164,12 @@ Wystawienie operacji użytkownikowi: strona edycji, przyciski przy pozycjach, se
 ### Phase 2: UI — strona edycji + akcje na dashboardzie
 
 #### Automated
-- [x] 2.1 Typecheck przechodzi: `npx astro check`
-- [x] 2.2 Linting przechodzi: `npm run lint`
-- [x] 2.3 Build przechodzi: `npm run build`
+- [x] 2.1 Typecheck przechodzi: `npx astro check` — 9d16d68
+- [x] 2.2 Linting przechodzi: `npm run lint` — 9d16d68
+- [x] 2.3 Build przechodzi: `npm run build` — 9d16d68
 
 #### Manual
-- [x] 2.4 Edycja kwoty/daty/typu zmienia status/dni/kwotę na liście i sumę „Zagrożone"
-- [x] 2.5 „Załatwione" usuwa z aktywnej listy/sumy i pokazuje w sekcji „Załatwione"; „Przywróć" wraca pozycję
-- [x] 2.6 „Usuń" po potwierdzeniu kasuje pozycję; anulowanie `confirm` nic nie zmienia
-- [x] 2.7 Wejście na `/items/[cudzy-id]/edit` nie pokazuje cudzej pozycji
+- [x] 2.4 Edycja kwoty/daty/typu zmienia status/dni/kwotę na liście i sumę „Zagrożone" — 9d16d68
+- [x] 2.5 „Załatwione" usuwa z aktywnej listy/sumy i pokazuje w sekcji „Załatwione"; „Przywróć" wraca pozycję — 9d16d68
+- [x] 2.6 „Usuń" po potwierdzeniu kasuje pozycję; anulowanie `confirm` nic nie zmienia — 9d16d68
+- [x] 2.7 Wejście na `/items/[cudzy-id]/edit` nie pokazuje cudzej pozycji — 9d16d68
