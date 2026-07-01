@@ -1,7 +1,7 @@
 ---
 change_id: otp-signup
 title: Rejestracja z kodem OTP (potwierdzenie e-mail)
-status: implementing
+status: implemented
 created: 2026-07-01
 updated: 2026-07-01
 archived_at: null

@@ -173,12 +173,12 @@ Rollback: `mailer_autoconfirm=true` przywraca poprzednie zachowanie (rejestracja
 ### Phase 2: UI weryfikacji + pełny przepływ
 
 #### Automated
-- [x] 2.1 Typecheck przechodzi: `npx astro check`
-- [x] 2.2 Linting przechodzi: `npm run lint`
-- [x] 2.3 Build przechodzi: `npm run build`
+- [x] 2.1 Typecheck przechodzi: `npx astro check` — ceea21c
+- [x] 2.2 Linting przechodzi: `npm run lint` — ceea21c
+- [x] 2.3 Build przechodzi: `npm run build` — ceea21c
 
 #### Manual
-- [ ] 2.4 Rejestracja `stasiuklge@gmail.com` → e-mail z 6-cyfrowym kodem dociera
-- [ ] 2.5 Poprawny kod → redirect `/auth/signin?confirmed=1` z banerem; logowanie hasłem → dashboard
-- [ ] 2.6 Zły kod → komunikat błędu, konto niepotwierdzone
-- [ ] 2.7 `/auth/verify` bez `?email` → komunikat „wróć do rejestracji", brak 500
+- [x] 2.4 Rejestracja `stasiuklge@gmail.com` → e-mail z kodem dociera (potwierdzone przez użytkownika)
+- [x] 2.5 Poprawny kod → redirect `/auth/signin?confirmed=1` z banerem; logowanie hasłem → dashboard (potwierdzone na żywym endpoincie + użytkownik)
+- [x] 2.6 Zły kod → komunikat błędu, konto niepotwierdzone
+- [x] 2.7 `/auth/verify` bez `?email` → komunikat „wróć do rejestracji", brak 500
