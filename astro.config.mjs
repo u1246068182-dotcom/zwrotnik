@@ -18,6 +18,10 @@ export default defineConfig({
     schema: {
       SUPABASE_URL: envField.string({ context: "server", access: "secret", optional: true }),
       SUPABASE_KEY: envField.string({ context: "server", access: "secret", optional: true }),
+      // Używane tylko przez endpoint cron wysyłki przypomnień (service-role omija RLS).
+      SUPABASE_SERVICE_KEY: envField.string({ context: "server", access: "secret", optional: true }),
+      RESEND_API_KEY: envField.string({ context: "server", access: "secret", optional: true }),
+      CRON_SECRET: envField.string({ context: "server", access: "secret", optional: true }),
     },
   },
 });

@@ -1,0 +1,16 @@
+name: Reminders
+
+on:
+  schedule:
+    - cron: "0 * * * *" # co godzinę
+  workflow_dispatch:
+
+jobs:
+  send:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wywołaj endpoint wysyłki przypomnień
+        run: |
+          curl -sS -f -X POST "https://zwrotnik.zwrotnik-app.workers.dev/api/cron/send-reminders" \
+            -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
+            -w "\nHTTP %{http_code}\n"

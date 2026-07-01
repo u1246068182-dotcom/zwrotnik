@@ -189,15 +189,15 @@ Cykliczna wysyłka należnych przypomnień i zerowanie po wysłaniu.
 - [x] 1.5 Build: `npm run build` — 8e4fe60
 
 #### Manual
-- [ ] 1.6 Ustaw/usuń przypomnienie na pozycji działa; wyświetlana godzina zgodna z wpisaną (czas polski)
+- [x] 1.6 Ustaw/usuń przypomnienie na pozycji działa; wyświetlana godzina zgodna z wpisaną (czas polski) — zweryf. mechanicznie na prod
 
 ### Phase 2: Harmonogram wysyłki
 
 #### Automated
-- [ ] 2.1 Unit-testy (należność, strefa, treść maila): `npm run test:unit`
-- [ ] 2.2 Typecheck: `npx astro check`
-- [ ] 2.3 Lint: `npm run lint`
-- [ ] 2.4 Build: `npm run build`
+- [x] 2.1 Unit-testy (należność, strefa, treść maila): `npm run test:unit`
+- [x] 2.2 Typecheck: `npx astro check`
+- [x] 2.3 Lint: `npm run lint`
+- [x] 2.4 Build: `npm run build`
 - [ ] 2.5 Endpoint bez/na złym `CRON_SECRET` → 401 (curl smoke)
 
 #### Manual
