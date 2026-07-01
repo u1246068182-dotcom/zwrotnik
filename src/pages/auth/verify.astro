@@ -39,11 +39,10 @@ const error = Astro.url.searchParams.get("error");
             <form method="POST" action="/api/auth/verify" class="space-y-4">
               <input type="hidden" name="email" value={email} />
               <input
+                id="otp-input"
                 name="token"
                 inputmode="numeric"
                 autocomplete="one-time-code"
-                pattern="\d{6}"
-                maxlength="6"
                 required
                 placeholder="000000"
                 aria-label="Kod z e-maila"
@@ -69,3 +68,13 @@ const error = Astro.url.searchParams.get("error");
     </div>
   </div>
 </Layout>
+
+<script is:inline>
+  // Wklejony z maila kod bywa ze spacjami/rozstrzelony — czyścimy do samych cyfr (max 6).
+  const otp = document.getElementById("otp-input");
+  if (otp) {
+    otp.addEventListener("input", () => {
+      otp.value = otp.value.replace(/\D/g, "").slice(0, 6);
+    });
+  }
+</script>

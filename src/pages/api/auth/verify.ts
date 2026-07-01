@@ -8,7 +8,8 @@ export const prerender = false;
 export const POST: APIRoute = async (context) => {
   const form = await context.request.formData();
   const email = (form.get("email") as string | null)?.trim() ?? "";
-  const token = (form.get("token") as string | null)?.trim() ?? "";
+  // Kod wklejany z maila bywa ze spacjami/myślnikami — normalizujemy do samych cyfr.
+  const token = ((form.get("token") as string | null) ?? "").replace(/\D/g, "");
 
   const back = (msg: string): Response =>
     context.redirect(`/auth/verify?email=${encodeURIComponent(email)}&error=${encodeURIComponent(msg)}`);
