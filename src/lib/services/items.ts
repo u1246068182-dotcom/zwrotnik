@@ -2,7 +2,7 @@ import { z } from "zod";
 import type { SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/db/database.types";
 import type { Item } from "@/types";
-import { isOverFreeLimit } from "@/lib/plan";
+import { isOverFreeLimit, FREE_ITEM_LIMIT } from "@/lib/plan";
 
 type DbClient = SupabaseClient<Database>;
 
@@ -92,7 +92,7 @@ export async function createItem(supabase: DbClient, userId: string, raw: unknow
     .eq("status_zalatwione", false);
   if (isOverFreeLimit(profile?.plan ?? "free", count ?? 0)) {
     return {
-      error: "Osiągnięto limit 30 pozycji w planie darmowym. Odblokowanie więcej (9,99 zł) będzie dostępne wkrótce.",
+      error: `Osiągnięto limit ${FREE_ITEM_LIMIT} pozycji w planie darmowym. Odblokowanie więcej będzie dostępne wkrótce.`,
     };
   }
 
