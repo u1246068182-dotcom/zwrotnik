@@ -18,7 +18,7 @@ export const POST: APIRoute = async (context) => {
     return context.redirect("/auth/signup");
   }
   if (!isValidOtpCode(token)) {
-    return back("Kod musi mieć 6 cyfr.");
+    return back("Kod musi składać się z 6–8 cyfr.");
   }
 
   const supabase = createClient(context.request.headers, context.cookies);

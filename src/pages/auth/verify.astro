@@ -74,7 +74,7 @@ const error = Astro.url.searchParams.get("error");
   const otp = document.getElementById("otp-input");
   if (otp) {
     otp.addEventListener("input", () => {
-      otp.value = otp.value.replace(/\D/g, "").slice(0, 6);
+      otp.value = otp.value.replace(/\D/g, "").slice(0, 8);
     });
   }
 </script>
