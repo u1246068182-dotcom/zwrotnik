@@ -165,17 +165,17 @@ Rollback: `mailer_autoconfirm=true` przywraca poprzednie zachowanie (rejestracja
 ### Phase 1: Backend + konfiguracja Supabase
 
 #### Automated
-- [x] 1.1 Unit-testy przechodzą: `npm run test:unit`
-- [x] 1.2 Typecheck przechodzi: `npx astro check`
-- [x] 1.3 Linting przechodzi: `npm run lint`
-- [x] 1.4 Build przechodzi: `npm run build`
+- [x] 1.1 Unit-testy przechodzą: `npm run test:unit` — 0cf648f
+- [x] 1.2 Typecheck przechodzi: `npx astro check` — 0cf648f
+- [x] 1.3 Linting przechodzi: `npm run lint` — 0cf648f
+- [x] 1.4 Build przechodzi: `npm run build` — 0cf648f
 
 ### Phase 2: UI weryfikacji + pełny przepływ
 
 #### Automated
-- [ ] 2.1 Typecheck przechodzi: `npx astro check`
-- [ ] 2.2 Linting przechodzi: `npm run lint`
-- [ ] 2.3 Build przechodzi: `npm run build`
+- [x] 2.1 Typecheck przechodzi: `npx astro check`
+- [x] 2.2 Linting przechodzi: `npm run lint`
+- [x] 2.3 Build przechodzi: `npm run build`
 
 #### Manual
 - [ ] 2.4 Rejestracja `stasiuklge@gmail.com` → e-mail z 6-cyfrowym kodem dociera

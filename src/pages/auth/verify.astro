@@ -1,0 +1,71 @@
+---
+import Layout from "@/layouts/Layout.astro";
+
+export const prerender = false;
+
+const email = Astro.url.searchParams.get("email")?.trim() ?? "";
+const error = Astro.url.searchParams.get("error");
+---
+
+<Layout title="Potwierdź konto — Zwrotnik">
+  <div class="bg-cosmic flex min-h-screen items-center justify-center p-4">
+    <div class="w-full max-w-sm rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
+      <h1
+        class="mb-2 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-center text-2xl font-bold text-transparent"
+      >
+        Potwierdź konto
+      </h1>
+
+      {
+        !email ? (
+          <div class="text-center text-sm text-blue-100/70">
+            <p class="mb-4">Brak adresu e-mail do potwierdzenia.</p>
+            <a href="/auth/signup" class="text-purple-300 hover:underline">
+              Wróć do rejestracji
+            </a>
+          </div>
+        ) : (
+          <>
+            <p class="mb-6 text-center text-sm text-blue-100/70">
+              Wpisz 6-cyfrowy kod, który wysłaliśmy na <span class="text-white">{email}</span>.
+            </p>
+
+            {error && (
+              <p class="mb-4 rounded-lg border border-red-300/40 bg-red-500/15 p-3 text-center text-sm text-red-100">
+                {error}
+              </p>
+            )}
+
+            <form method="POST" action="/api/auth/verify" class="space-y-4">
+              <input type="hidden" name="email" value={email} />
+              <input
+                name="token"
+                inputmode="numeric"
+                autocomplete="one-time-code"
+                pattern="\d{6}"
+                maxlength="6"
+                required
+                placeholder="000000"
+                aria-label="Kod z e-maila"
+                class="w-full rounded-lg border border-white/20 bg-white/5 px-3 py-3 text-center text-2xl tracking-[0.4em] text-white placeholder-white/30 focus:border-purple-400 focus:outline-none"
+              />
+              <button
+                type="submit"
+                class="w-full rounded-lg bg-purple-600 px-4 py-3 font-medium text-white transition-colors hover:bg-purple-500"
+              >
+                Potwierdź
+              </button>
+            </form>
+
+            <p class="mt-4 text-center text-xs text-blue-100/50">
+              Nie masz kodu?{" "}
+              <a href="/auth/signup" class="text-purple-300 hover:underline">
+                Zarejestruj się ponownie
+              </a>
+            </p>
+          </>
+        )
+      }
+    </div>
+  </div>
+</Layout>

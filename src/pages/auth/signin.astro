@@ -4,6 +4,7 @@ import SignInForm from "@/components/auth/SignInForm";
 
 const error = Astro.url.searchParams.get("error");
 const registered = Astro.url.searchParams.get("registered") === "1";
+const confirmed = Astro.url.searchParams.get("confirmed") === "1";
 ---
 
 <Layout title="Sign in">
@@ -15,9 +16,9 @@ const registered = Astro.url.searchParams.get("registered") === "1";
         Sign in
       </h1>
       {
-        registered && (
+        (registered || confirmed) && (
           <p class="mb-4 rounded-lg border border-emerald-300/40 bg-emerald-500/15 p-3 text-center text-sm text-emerald-100">
-            Konto utworzone — zaloguj się.
+            {confirmed ? "Konto potwierdzone — zaloguj się." : "Konto utworzone — zaloguj się."}
           </p>
         )
       }
