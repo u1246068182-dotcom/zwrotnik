@@ -182,11 +182,11 @@ Cykliczna wysyłka należnych przypomnień i zerowanie po wysłaniu.
 ### Phase 1: Przypomnienia — dane + ustaw/usuń (UI)
 
 #### Automated
-- [x] 1.1 Unit-testy przechodzą (konwersja strefy, progi DST): `npm run test:unit`
-- [x] 1.2 Integration RLS (setReminder/clearReminder tylko własne): `npm run test:integration`
-- [x] 1.3 Typecheck: `npx astro check`
-- [x] 1.4 Lint: `npm run lint`
-- [x] 1.5 Build: `npm run build`
+- [x] 1.1 Unit-testy przechodzą (konwersja strefy, progi DST): `npm run test:unit` — 8e4fe60
+- [x] 1.2 Integration RLS (setReminder/clearReminder tylko własne): `npm run test:integration` — 8e4fe60
+- [x] 1.3 Typecheck: `npx astro check` — 8e4fe60
+- [x] 1.4 Lint: `npm run lint` — 8e4fe60
+- [x] 1.5 Build: `npm run build` — 8e4fe60
 
 #### Manual
 - [ ] 1.6 Ustaw/usuń przypomnienie na pozycji działa; wyświetlana godzina zgodna z wpisaną (czas polski)
