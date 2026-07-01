@@ -10,16 +10,13 @@ export const POST: APIRoute = async (context) => {
   if (!supabase) {
     return context.redirect(`/auth/signup?error=${encodeURIComponent("Supabase is not configured")}`);
   }
-  const { data, error } = await supabase.auth.signUp({ email, password });
+  const { error } = await supabase.auth.signUp({ email, password });
 
   if (error) {
     return context.redirect(`/auth/signup?error=${encodeURIComponent(error.message)}`);
   }
 
-  // Konta są auto-potwierdzane (mailer_autoconfirm) — signUp zwraca sesję,
-  // więc logujemy użytkownika od razu. Fallback: gdyby sesji nie było, na logowanie z komunikatem.
-  if (data.session) {
-    return context.redirect("/dashboard");
-  }
-  return context.redirect("/auth/signin?registered=1");
+  // Konto powstaje nieaktywne — Supabase wysyła 6-cyfrowy kod. Kierujemy na stronę wpisania kodu.
+  // (Dla istniejącego, niepotwierdzonego maila Supabase ponawia kod — user kontynuuje tutaj.)
+  return context.redirect(`/auth/verify?email=${encodeURIComponent(email)}`);
 };
