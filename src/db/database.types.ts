@@ -42,6 +42,7 @@ export type Database = {
           id: string
           kwota: number
           nazwa: string
+          reminder_at: string | null
           sklep: string | null
           status_zalatwione: boolean
           typ_okna: string
@@ -54,6 +55,7 @@ export type Database = {
           id?: string
           kwota: number
           nazwa: string
+          reminder_at?: string | null
           sklep?: string | null
           status_zalatwione?: boolean
           typ_okna: string
@@ -66,6 +68,7 @@ export type Database = {
           id?: string
           kwota?: number
           nazwa?: string
+          reminder_at?: string | null
           sklep?: string | null
           status_zalatwione?: boolean
           typ_okna?: string

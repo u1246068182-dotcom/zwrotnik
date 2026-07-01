@@ -1,7 +1,7 @@
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import type { Database } from "@/db/database.types";
-import { updateItem, deleteItem, setDone, listDoneForUser } from "@/lib/services/items";
+import { updateItem, deleteItem, setDone, listDoneForUser, setReminder, clearReminder } from "@/lib/services/items";
 
 // Test integracyjny izolacji RLS dla tabeli `items` (ryzyko R2 / IDOR z test-planu).
 // Samodzielny: tworzy dwóch userów przez admin API, więc nie wymaga ręcznej rejestracji.
@@ -148,5 +148,21 @@ describe("RLS mutacji przez serwis (S-03)", () => {
     await setDone(userA.client, itemId, true);
     const done = await listDoneForUser(userA.client);
     expect(done.some((it) => it.id === itemId)).toBe(true);
+  });
+
+  it("B nie ustawi przypomnienia na pozycji A (setReminder)", async () => {
+    await setReminder(userB.client, itemId, "2026-08-01T07:00:00.000Z");
+    const still = await userA.client.from("items").select("reminder_at").eq("id", itemId).single();
+    expect(still.data?.reminder_at).toBeNull();
+  });
+
+  it("A ustawia i czyści własne przypomnienie", async () => {
+    const set = await setReminder(userA.client, itemId, "2026-08-01T07:00:00.000Z");
+    expect(set.error).toBeUndefined();
+    let row = await userA.client.from("items").select("reminder_at").eq("id", itemId).single();
+    expect(row.data?.reminder_at).not.toBeNull();
+    await clearReminder(userA.client, itemId);
+    row = await userA.client.from("items").select("reminder_at").eq("id", itemId).single();
+    expect(row.data?.reminder_at).toBeNull();
   });
 });

@@ -76,6 +76,20 @@ export async function setDone(supabase: DbClient, id: string, done: boolean): Pr
   return {};
 }
 
+/** Ustawia moment przypomnienia (UTC ISO). RLS wymusza własność. */
+export async function setReminder(supabase: DbClient, id: string, reminderAtUTC: string): Promise<{ error?: string }> {
+  const { error } = await supabase.from("items").update({ reminder_at: reminderAtUTC }).eq("id", id);
+  if (error) return { error: error.message };
+  return {};
+}
+
+/** Usuwa przypomnienie (reminder_at = null). RLS wymusza własność. */
+export async function clearReminder(supabase: DbClient, id: string): Promise<{ error?: string }> {
+  const { error } = await supabase.from("items").update({ reminder_at: null }).eq("id", id);
+  if (error) return { error: error.message };
+  return {};
+}
+
 /** Waliduje i tworzy nową pozycję dla użytkownika. Zwraca komunikat błędu albo nic. */
 export async function createItem(supabase: DbClient, userId: string, raw: unknown): Promise<{ error?: string }> {
   const parsed = itemInputSchema.safeParse(raw);

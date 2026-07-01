@@ -1,6 +1,7 @@
 import type { APIRoute } from "astro";
 import { createClient } from "@/lib/supabase";
-import { updateItem, deleteItem, setDone } from "@/lib/services/items";
+import { updateItem, deleteItem, setDone, setReminder, clearReminder } from "@/lib/services/items";
+import { warsawWallTimeToUTC } from "@/lib/reminders";
 
 export const prerender = false;
 
@@ -52,6 +53,20 @@ export const POST: APIRoute = async (context) => {
       break;
     case "undone":
       result = await setDone(supabase, id, false);
+      break;
+    case "set-reminder": {
+      const date = opt(form.get("reminder_date"));
+      const hourRaw = opt(form.get("reminder_hour"));
+      const hour = Number(hourRaw);
+      if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isInteger(hour) || hour < 0 || hour > 23) {
+        result = { error: "Podaj poprawną datę i godzinę przypomnienia" };
+      } else {
+        result = await setReminder(supabase, id, warsawWallTimeToUTC(date, hour));
+      }
+      break;
+    }
+    case "clear-reminder":
+      result = await clearReminder(supabase, id);
       break;
     default:
       result = { error: "Nieznana operacja" };

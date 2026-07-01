@@ -19,6 +19,7 @@ function makeItem(o: Partial<Item> = {}): Item {
     dlugosc_okna_dni: o.dlugosc_okna_dni ?? null,
     status_zalatwione: o.status_zalatwione ?? false,
     created_at: o.created_at ?? "2026-06-01T00:00:00Z",
+    reminder_at: o.reminder_at ?? null,
   };
 }
 
