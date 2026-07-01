@@ -10,10 +10,16 @@ export const POST: APIRoute = async (context) => {
   if (!supabase) {
     return context.redirect(`/auth/signup?error=${encodeURIComponent("Supabase is not configured")}`);
   }
-  const { error } = await supabase.auth.signUp({ email, password });
+  const { data, error } = await supabase.auth.signUp({ email, password });
 
   if (error) {
     return context.redirect(`/auth/signup?error=${encodeURIComponent(error.message)}`);
+  }
+
+  // Ochrona przed enumeracją: dla JUŻ POTWIERDZONEGO konta Supabase zwraca „obfuscated" usera
+  // z pustą tablicą `identities` (bez błędu, bez maila). Wtedy kierujemy na logowanie z komunikatem.
+  if (data.user && data.user.identities?.length === 0) {
+    return context.redirect("/auth/signin?exists=1");
   }
 
   // Konto powstaje nieaktywne — Supabase wysyła 6-cyfrowy kod. Kierujemy na stronę wpisania kodu.
