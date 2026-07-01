@@ -4,7 +4,7 @@ import type { Database } from "@/db/database.types";
 export type Item = Database["public"]["Tables"]["items"]["Row"];
 
 /** Typ okna czasowego pozycji. */
-export type WindowType = "zwrot" | "rekojmia" | "subskrypcja";
+export type WindowType = "zwrot" | "rekojmia" | "subskrypcja" | "wlasny";
 
 /** Status pilności wyliczony przez silnik. */
 export type UrgencyStatus = "pilne" | "wkrotce" | "spokojnie" | "minelo";

@@ -25,7 +25,7 @@ export function computeCloseDate(item: Pick<Item, "typ_okna" | "data_odniesienia
       return addDays(item.data_odniesienia, item.dlugosc_okna_dni ?? DEFAULT_RETURN_DAYS);
     case "rekojmia":
       return addDays(item.data_odniesienia, REKOJMIA_DAYS);
-    default: // subskrypcja: data odnowienia jest datą zamknięcia
+    default: // subskrypcja / wlasny: wpisana data jest datą zamknięcia
       return item.data_odniesienia.slice(0, 10);
   }
 }

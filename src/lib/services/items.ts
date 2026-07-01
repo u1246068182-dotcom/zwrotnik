@@ -12,7 +12,7 @@ export const itemInputSchema = z.object({
   sklep: z.string().trim().min(1).optional(),
   kwota: z.coerce.number().positive("Kwota musi być dodatnia"),
   data_odniesienia: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, "Podaj poprawną datę"),
-  typ_okna: z.enum(["zwrot", "rekojmia", "subskrypcja"]),
+  typ_okna: z.enum(["zwrot", "rekojmia", "subskrypcja", "wlasny"]),
   dlugosc_okna_dni: z.coerce.number().int().positive().optional(),
 });
 

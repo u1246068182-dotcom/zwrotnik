@@ -58,6 +58,9 @@ describe("computeCloseDate — data zamknięcia wg typu okna", () => {
   it("subskrypcja: data odnowienia jest datą zamknięcia", () => {
     expect(computeCloseDate(makeItem({ typ_okna: "subskrypcja", data_odniesienia: "2026-07-01" }))).toBe("2026-07-01");
   });
+  it("wlasny: wpisana data jest datą zamknięcia", () => {
+    expect(computeCloseDate(makeItem({ typ_okna: "wlasny", data_odniesienia: "2026-08-20" }))).toBe("2026-08-20");
+  });
 });
 
 describe("buildUrgencyView — kubełki, sort, suma", () => {
