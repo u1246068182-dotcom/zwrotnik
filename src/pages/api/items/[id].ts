@@ -61,7 +61,12 @@ export const POST: APIRoute = async (context) => {
       if (!date || !/^\d{4}-\d{2}-\d{2}$/.test(date) || !Number.isInteger(hour) || hour < 0 || hour > 23) {
         result = { error: "Podaj poprawną datę i godzinę przypomnienia" };
       } else {
-        result = await setReminder(supabase, id, warsawWallTimeToUTC(date, hour));
+        const reminderUTC = warsawWallTimeToUTC(date, hour);
+        if (new Date(reminderUTC).getTime() <= Date.now()) {
+          result = { error: "Przypomnienie musi być w przyszłości — wybierz późniejszą datę lub godzinę." };
+        } else {
+          result = await setReminder(supabase, id, reminderUTC);
+        }
       }
       break;
     }
