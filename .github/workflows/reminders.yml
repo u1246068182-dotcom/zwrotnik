@@ -11,6 +11,8 @@ jobs:
     steps:
       - name: Wywołaj endpoint wysyłki przypomnień
         run: |
+          # Origin pasujący do hosta — spełnia CSRF checkOrigin Astro (realną ochroną jest CRON_SECRET).
           curl -sS -f -X POST "https://zwrotnik.zwrotnik-app.workers.dev/api/cron/send-reminders" \
+            -H "Origin: https://zwrotnik.zwrotnik-app.workers.dev" \
             -H "Authorization: Bearer ${{ secrets.CRON_SECRET }}" \
             -w "\nHTTP %{http_code}\n"

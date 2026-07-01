@@ -194,11 +194,11 @@ Cykliczna wysyłka należnych przypomnień i zerowanie po wysłaniu.
 ### Phase 2: Harmonogram wysyłki
 
 #### Automated
-- [x] 2.1 Unit-testy (należność, strefa, treść maila): `npm run test:unit`
-- [x] 2.2 Typecheck: `npx astro check`
-- [x] 2.3 Lint: `npm run lint`
-- [x] 2.4 Build: `npm run build`
-- [ ] 2.5 Endpoint bez/na złym `CRON_SECRET` → 401 (curl smoke)
+- [x] 2.1 Unit-testy (należność, strefa, treść maila): `npm run test:unit` — c042ee5
+- [x] 2.2 Typecheck: `npx astro check` — c042ee5
+- [x] 2.3 Lint: `npm run lint` — c042ee5
+- [x] 2.4 Build: `npm run build` — c042ee5
+- [x] 2.5 Endpoint bez/na złym `CRON_SECRET` → 401 (curl smoke) — zweryf. na prod (z Origin: 401/401/200)
 
 #### Manual
 - [ ] 2.6 Przypomnienie na najbliższą godzinę → mail dochodzi na `stasiuklge@gmail.com`
