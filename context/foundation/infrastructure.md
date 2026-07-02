@@ -13,8 +13,8 @@ Dokument opisuje, gdzie i jak Zwrotnik jest zbudowany, wdrożony i utrzymywany.
 | Repozytorium | GitHub (publiczne) |
 | CI/CD | GitHub Actions |
 
-- **Produkcja (publiczny URL):** https://zwrotnik.zwrotnik-app.workers.dev
-- **Worker:** `zwrotnik` (subdomena konta `zwrotnik-app.workers.dev`)
+- **Produkcja (publiczny URL):** https://mojzwrotnik.uk (custom domain na Cloudflare; `zwrotnik.zwrotnik-app.workers.dev` też działa)
+- **Worker:** `zwrotnik` (custom domain `mojzwrotnik.uk` + subdomena konta `zwrotnik-app.workers.dev`)
 - **Projekt Supabase:** `fznbmibpguvffztlvehe` (eu-west-1)
 
 ## Aplikacja i rendering
