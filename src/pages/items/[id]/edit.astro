@@ -30,17 +30,23 @@ const typy: { value: string; label: string }[] = [
   <main class="mx-auto max-w-2xl p-4 sm:p-6">
     <header class="mb-6">
       <h1 class="text-2xl font-bold">Edycja pozycji</h1>
-      <a href="/dashboard" class="text-sm text-gray-500 hover:underline">← Wróć do listy</a>
+      <a href="/dashboard" class="text-muted-foreground text-sm hover:underline">← Wróć do listy</a>
     </header>
 
-    {error && <p class="mb-4 rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+    {
+      error && (
+        <p class="mb-4 rounded-lg border border-red-400/40 bg-red-500/10 p-3 text-sm text-red-600 dark:text-red-300">
+          {error}
+        </p>
+      )
+    }
 
     {
       !item ? (
-        <div class="rounded-xl border border-dashed p-8 text-center text-gray-500">
+        <div class="text-muted-foreground rounded-xl border border-dashed p-8 text-center">
           <p class="font-medium">Nie znaleziono pozycji.</p>
           <p class="text-sm">Mogła zostać usunięta albo nie należy do Ciebie.</p>
-          <a href="/dashboard" class="mt-3 inline-block text-sm text-gray-900 underline">
+          <a href="/dashboard" class="text-foreground mt-3 inline-block text-sm underline">
             Wróć do listy
           </a>
         </div>
@@ -49,11 +55,11 @@ const typy: { value: string; label: string }[] = [
           <input type="hidden" name="_action" value="update" />
           <label class="flex flex-col text-sm sm:col-span-2">
             Nazwa
-            <input name="nazwa" required value={item.nazwa} class="mt-1 rounded-lg border px-3 py-2" />
+            <input name="nazwa" required value={item.nazwa} class="mt-1 rounded-lg border bg-transparent px-3 py-2" />
           </label>
           <label class="flex flex-col text-sm">
             Sklep (opcjonalnie)
-            <input name="sklep" value={item.sklep ?? ""} class="mt-1 rounded-lg border px-3 py-2" />
+            <input name="sklep" value={item.sklep ?? ""} class="mt-1 rounded-lg border bg-transparent px-3 py-2" />
           </label>
           <label class="flex flex-col text-sm">
             Kwota (zł)
@@ -64,7 +70,7 @@ const typy: { value: string; label: string }[] = [
               min="0.01"
               required
               value={item.kwota}
-              class="mt-1 rounded-lg border px-3 py-2"
+              class="mt-1 rounded-lg border bg-transparent px-3 py-2"
             />
           </label>
           <label class="flex flex-col text-sm">
@@ -74,12 +80,12 @@ const typy: { value: string; label: string }[] = [
               type="date"
               required
               value={item.data_odniesienia}
-              class="mt-1 rounded-lg border px-3 py-2"
+              class="mt-1 rounded-lg border bg-transparent px-3 py-2"
             />
           </label>
           <label class="flex flex-col text-sm">
             Typ okna
-            <select name="typ_okna" required class="mt-1 rounded-lg border px-3 py-2">
+            <select name="typ_okna" required class="mt-1 rounded-lg border bg-transparent px-3 py-2">
               {typy.map((t) => (
                 <option value={t.value} selected={t.value === item.typ_okna}>
                   {t.label}
@@ -88,11 +94,15 @@ const typy: { value: string; label: string }[] = [
             </select>
           </label>
           <div class="flex gap-3 sm:col-span-2">
-            <button type="submit" class="rounded-lg bg-gray-900 px-4 py-2 font-medium text-white hover:bg-gray-700">
+            <button
+              type="submit"
+              class="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg px-4 py-2 font-medium"
+            >
               Zapisz zmiany
             </button>
-            <a href="/dashboard" class="rounded-lg border px-4 py-2 font-medium hover:bg-gray-100">
-              Anuluj
+            <a href="/dashboard" class="hover:bg-muted rounded-lg border px-4 py-2 font-medium">
+              {" "}
+              Anuluj{" "}
             </a>
           </div>
         </form>

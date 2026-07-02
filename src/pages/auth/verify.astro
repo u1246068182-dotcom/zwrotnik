@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import ThemeToggle from "@/components/ThemeToggle.astro";
 
 export const prerender = false;
 
@@ -8,30 +9,33 @@ const error = Astro.url.searchParams.get("error");
 ---
 
 <Layout title="Potwierdź konto — Zwrotnik">
-  <div class="bg-cosmic flex min-h-screen items-center justify-center p-4">
-    <div class="w-full max-w-sm rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
+  <div class="dark:bg-cosmic relative flex min-h-screen items-center justify-center bg-slate-100 p-4">
+    <div class="absolute top-4 right-4"><ThemeToggle /></div>
+    <div
+      class="w-full max-w-sm rounded-2xl border border-slate-200 bg-white/80 p-8 text-slate-900 backdrop-blur-xl dark:border-white/10 dark:bg-white/10 dark:text-white"
+    >
       <h1
-        class="mb-2 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-center text-2xl font-bold text-transparent"
+        class="mb-2 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-center text-2xl font-bold text-transparent dark:from-blue-200 dark:to-purple-200"
       >
         Potwierdź konto
       </h1>
 
       {
         !email ? (
-          <div class="text-center text-sm text-blue-100/70">
+          <div class="text-center text-sm text-slate-600 dark:text-blue-100/70">
             <p class="mb-4">Brak adresu e-mail do potwierdzenia.</p>
-            <a href="/auth/signup" class="text-purple-300 hover:underline">
+            <a href="/auth/signup" class="text-purple-600 hover:underline dark:text-purple-300">
               Wróć do rejestracji
             </a>
           </div>
         ) : (
           <>
-            <p class="mb-6 text-center text-sm text-blue-100/70">
-              Wpisz 6-cyfrowy kod, który wysłaliśmy na <span class="text-white">{email}</span>.
+            <p class="mb-6 text-center text-sm text-slate-600 dark:text-blue-100/70">
+              Wpisz kod, który wysłaliśmy na <span class="text-slate-900 dark:text-white">{email}</span>.
             </p>
 
             {error && (
-              <p class="mb-4 rounded-lg border border-red-300/40 bg-red-500/15 p-3 text-center text-sm text-red-100">
+              <p class="mb-4 rounded-lg border border-red-400/40 bg-red-500/10 p-3 text-center text-sm text-red-700 dark:border-red-300/40 dark:bg-red-500/15 dark:text-red-100">
                 {error}
               </p>
             )}
@@ -46,7 +50,7 @@ const error = Astro.url.searchParams.get("error");
                 required
                 placeholder="000000"
                 aria-label="Kod z e-maila"
-                class="w-full rounded-lg border border-white/20 bg-white/5 px-3 py-3 text-center text-2xl tracking-[0.4em] text-white placeholder-white/30 focus:border-purple-400 focus:outline-none"
+                class="w-full rounded-lg border border-slate-300 bg-white/70 px-3 py-3 text-center text-2xl tracking-[0.4em] text-slate-900 placeholder-slate-400 focus:border-purple-400 focus:outline-none dark:border-white/20 dark:bg-white/5 dark:text-white dark:placeholder-white/30"
               />
               <button
                 type="submit"
@@ -56,9 +60,9 @@ const error = Astro.url.searchParams.get("error");
               </button>
             </form>
 
-            <p class="mt-4 text-center text-xs text-blue-100/50">
+            <p class="mt-4 text-center text-xs text-slate-500 dark:text-blue-100/50">
               Nie masz kodu?{" "}
-              <a href="/auth/signup" class="text-purple-300 hover:underline">
+              <a href="/auth/signup" class="text-purple-600 hover:underline dark:text-purple-300">
                 Zarejestruj się ponownie
               </a>
             </p>

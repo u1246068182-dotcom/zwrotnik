@@ -1,0 +1,20 @@
+---
+// Przełącznik motywu jasny/ciemny. Zapisuje wybór w localStorage; klasa `.dark` na <html>.
+---
+
+<button
+  id="theme-toggle"
+  type="button"
+  aria-label="Przełącz motyw"
+  class="rounded-lg border border-slate-300 px-2 py-1 text-sm text-slate-700 transition-colors hover:bg-slate-100 dark:border-white/20 dark:text-white/80 dark:hover:bg-white/10"
+>
+  <span class="hidden dark:inline">☀️ Jasny</span>
+  <span class="inline dark:hidden">🌙 Ciemny</span>
+</button>
+
+<script is:inline>
+  document.getElementById("theme-toggle")?.addEventListener("click", () => {
+    const isDark = document.documentElement.classList.toggle("dark");
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  });
+</script>

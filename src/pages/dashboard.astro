@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import ThemeToggle from "@/components/ThemeToggle.astro";
 import { createClient } from "@/lib/supabase";
 import { listActiveForUser, listDoneForUser } from "@/lib/services/items";
 import { buildUrgencyView } from "@/lib/urgency";
@@ -20,7 +21,7 @@ const BUCKETS: { key: UrgencyStatus; label: string; tone: string }[] = [
   { key: "pilne", label: "🔴 Pilne", tone: "border-red-400/40" },
   { key: "wkrotce", label: "🟡 Wkrótce", tone: "border-amber-400/40" },
   { key: "spokojnie", label: "🟢 Spokojnie", tone: "border-emerald-400/40" },
-  { key: "minelo", label: "⚪ Minęło", tone: "border-white/15" },
+  { key: "minelo", label: "⚪ Minęło", tone: "border-border" },
 ];
 
 function fmtPln(n: number): string {
@@ -40,40 +41,61 @@ const isEmpty = items.length === 0;
     <header class="mb-6 flex items-center justify-between gap-4">
       <div>
         <a href="/" class="text-2xl font-bold hover:underline">Zwrotnik</a>
-        <p class="text-sm text-gray-500">{user?.email}</p>
+        <p class="text-muted-foreground text-sm">{user?.email}</p>
       </div>
-      <form method="POST" action="/api/auth/signout">
-        <button type="submit" class="rounded-lg border px-3 py-1.5 text-sm hover:bg-gray-100">Wyloguj</button>
-      </form>
+      <div class="flex items-center gap-2">
+        <ThemeToggle />
+        <form method="POST" action="/api/auth/signout">
+          <button type="submit" class="hover:bg-muted rounded-lg border px-3 py-1.5 text-sm">Wyloguj</button>
+        </form>
+      </div>
     </header>
 
-    <div class="mb-6 rounded-xl border bg-gray-50 p-4">
-      <span class="text-sm text-gray-500">Zagrożone</span>
+    <div class="bg-muted mb-6 rounded-xl border p-4">
+      <span class="text-muted-foreground text-sm">Zagrożone</span>
       <p class="text-3xl font-bold">{fmtPln(view.sumaZagrozona)}</p>
     </div>
 
-    {error && <p class="mb-4 rounded-lg border border-red-300 bg-red-50 p-3 text-sm text-red-700">{error}</p>}
+    {
+      error && (
+        <p class="mb-4 rounded-lg border border-red-400/40 bg-red-500/10 p-3 text-sm text-red-600 dark:text-red-300">
+          {error}
+        </p>
+      )
+    }
 
     <form method="POST" action="/api/items" class="mb-8 grid gap-3 rounded-xl border p-4 sm:grid-cols-2">
       <label class="flex flex-col text-sm sm:col-span-2">
         Nazwa
-        <input name="nazwa" required class="mt-1 rounded-lg border px-3 py-2" placeholder="np. Słuchawki Sony" />
+        <input
+          name="nazwa"
+          required
+          class="mt-1 rounded-lg border bg-transparent px-3 py-2"
+          placeholder="np. Słuchawki Sony"
+        />
       </label>
       <label class="flex flex-col text-sm">
         Sklep (opcjonalnie)
-        <input name="sklep" class="mt-1 rounded-lg border px-3 py-2" placeholder="np. Media Expert" />
+        <input name="sklep" class="mt-1 rounded-lg border bg-transparent px-3 py-2" placeholder="np. Media Expert" />
       </label>
       <label class="flex flex-col text-sm">
         Kwota (zł)
-        <input name="kwota" type="number" step="0.01" min="0.01" required class="mt-1 rounded-lg border px-3 py-2" />
+        <input
+          name="kwota"
+          type="number"
+          step="0.01"
+          min="0.01"
+          required
+          class="mt-1 rounded-lg border bg-transparent px-3 py-2"
+        />
       </label>
       <label class="flex flex-col text-sm">
         Data zakupu / odnowienia
-        <input name="data_odniesienia" type="date" required class="mt-1 rounded-lg border px-3 py-2" />
+        <input name="data_odniesienia" type="date" required class="mt-1 rounded-lg border bg-transparent px-3 py-2" />
       </label>
       <label class="flex flex-col text-sm">
         Typ okna
-        <select name="typ_okna" required class="mt-1 rounded-lg border px-3 py-2">
+        <select name="typ_okna" required class="mt-1 rounded-lg border bg-transparent px-3 py-2">
           <option value="zwrot">Zwrot (14 dni)</option>
           <option value="rekojmia">Rękojmia (2 lata)</option>
           <option value="subskrypcja">Subskrypcja (data odnowienia)</option>
@@ -82,7 +104,7 @@ const isEmpty = items.length === 0;
       </label>
       <button
         type="submit"
-        class="rounded-lg bg-gray-900 px-4 py-2 font-medium text-white hover:bg-gray-700 sm:col-span-2"
+        class="bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg px-4 py-2 font-medium sm:col-span-2"
       >
         Dodaj pozycję
       </button>
@@ -90,7 +112,7 @@ const isEmpty = items.length === 0;
 
     {
       isEmpty ? (
-        <div class="rounded-xl border border-dashed p-8 text-center text-gray-500">
+        <div class="text-muted-foreground rounded-xl border border-dashed p-8 text-center">
           <p class="font-medium">Brak pozycji.</p>
           <p class="text-sm">Dodaj pierwszy zakup powyżej, a zobaczysz, ile dni i złotych jest zagrożonych.</p>
         </div>
@@ -98,14 +120,14 @@ const isEmpty = items.length === 0;
         <div class="space-y-6">
           {BUCKETS.filter((b) => view.buckets[b.key].length > 0).map((b) => (
             <section>
-              <h2 class="mb-2 text-sm font-semibold text-gray-600">{b.label}</h2>
+              <h2 class="text-muted-foreground mb-2 text-sm font-semibold">{b.label}</h2>
               <ul class="space-y-2">
                 {view.buckets[b.key].map((it) => (
-                  <li class:list={`flex flex-col gap-2 rounded-lg border-l-4 bg-white p-3 shadow-sm ${b.tone}`}>
+                  <li class:list={`bg-card flex flex-col gap-2 rounded-lg border-l-4 p-3 shadow-sm ${b.tone}`}>
                     <div class="flex items-center justify-between gap-3">
                       <div class="min-w-0">
                         <p class="truncate font-medium">{it.nazwa}</p>
-                        <p class="text-xs text-gray-500">
+                        <p class="text-muted-foreground text-xs">
                           {it.sklep ?? "—"} · {dniLabel(it.dniDoZamkniecia)}
                         </p>
                       </div>
@@ -113,7 +135,7 @@ const isEmpty = items.length === 0;
                         <span class="font-semibold">{fmtPln(it.kwota)}</span>
                         <a
                           href={`/items/${it.id}/edit`}
-                          class="rounded-md border px-2 py-1 text-xs hover:bg-gray-100"
+                          class="hover:bg-muted rounded-md border px-2 py-1 text-xs"
                           aria-label="Edytuj"
                         >
                           Edytuj
@@ -122,7 +144,7 @@ const isEmpty = items.length === 0;
                           <input type="hidden" name="_action" value="done" />
                           <button
                             type="submit"
-                            class="rounded-md border px-2 py-1 text-xs hover:bg-emerald-50"
+                            class="hover:bg-muted rounded-md border px-2 py-1 text-xs"
                             aria-label="Oznacz jako załatwione"
                           >
                             Załatwione
@@ -136,7 +158,7 @@ const isEmpty = items.length === 0;
                           <input type="hidden" name="_action" value="delete" />
                           <button
                             type="submit"
-                            class="rounded-md border px-2 py-1 text-xs text-red-600 hover:bg-red-50"
+                            class="rounded-md border px-2 py-1 text-xs text-red-600 hover:bg-red-500/10 dark:text-red-400"
                             aria-label="Usuń"
                           >
                             Usuń
@@ -144,13 +166,13 @@ const isEmpty = items.length === 0;
                         </form>
                       </div>
                     </div>
-                    <div class="border-t border-gray-100 pt-2 text-xs text-gray-600">
+                    <div class="text-muted-foreground border-t pt-2 text-xs">
                       {it.reminder_at ? (
                         <div class="flex items-center justify-between gap-2">
                           <span>🔔 Przypomnienie: {formatReminderWarsaw(it.reminder_at)}</span>
                           <form method="POST" action={`/api/items/${it.id}`}>
                             <input type="hidden" name="_action" value="clear-reminder" />
-                            <button type="submit" class="rounded-md border px-2 py-1 hover:bg-gray-100">
+                            <button type="submit" class="hover:bg-muted rounded-md border px-2 py-1">
                               Usuń przypomnienie
                             </button>
                           </form>
@@ -164,14 +186,14 @@ const isEmpty = items.length === 0;
                             name="reminder_date"
                             min={todayWarsaw}
                             required
-                            class="rounded border px-2 py-1"
+                            class="rounded border bg-transparent px-2 py-1"
                           />
-                          <select name="reminder_hour" required class="rounded border px-1 py-1">
+                          <select name="reminder_hour" required class="rounded border bg-transparent px-1 py-1">
                             {HOURS.map((h) => (
                               <option value={h}>{`${String(h).padStart(2, "0")}:00`}</option>
                             ))}
                           </select>
-                          <button type="submit" class="rounded-md border px-2 py-1 hover:bg-gray-100">
+                          <button type="submit" class="hover:bg-muted rounded-md border px-2 py-1">
                             Ustaw
                           </button>
                         </form>
@@ -189,10 +211,10 @@ const isEmpty = items.length === 0;
     {
       doneItems.length > 0 && (
         <section class="mt-8">
-          <h2 class="mb-2 text-sm font-semibold text-gray-600">✅ Załatwione ({doneItems.length})</h2>
+          <h2 class="text-muted-foreground mb-2 text-sm font-semibold">✅ Załatwione ({doneItems.length})</h2>
           <ul class="space-y-2">
             {doneItems.map((it) => (
-              <li class="flex items-center justify-between gap-3 rounded-lg border bg-gray-50 p-3 text-gray-500">
+              <li class="bg-muted text-muted-foreground flex items-center justify-between gap-3 rounded-lg border p-3">
                 <div class="min-w-0">
                   <p class="truncate font-medium line-through">{it.nazwa}</p>
                   <p class="text-xs">{it.sklep ?? "—"}</p>
@@ -203,7 +225,7 @@ const isEmpty = items.length === 0;
                     <input type="hidden" name="_action" value="undone" />
                     <button
                       type="submit"
-                      class="rounded-md border px-2 py-1 text-xs hover:bg-white"
+                      class="hover:bg-background rounded-md border px-2 py-1 text-xs"
                       aria-label="Przywróć"
                     >
                       Przywróć
@@ -217,7 +239,7 @@ const isEmpty = items.length === 0;
                     <input type="hidden" name="_action" value="delete" />
                     <button
                       type="submit"
-                      class="rounded-md border px-2 py-1 text-xs text-red-600 hover:bg-red-50"
+                      class="rounded-md border px-2 py-1 text-xs text-red-600 hover:bg-red-500/10 dark:text-red-400"
                       aria-label="Usuń"
                     >
                       Usuń

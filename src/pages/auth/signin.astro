@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/Layout.astro";
+import ThemeToggle from "@/components/ThemeToggle.astro";
 import SignInForm from "@/components/auth/SignInForm";
 
 const error = Astro.url.searchParams.get("error");
@@ -9,10 +10,13 @@ const exists = Astro.url.searchParams.get("exists") === "1";
 ---
 
 <Layout title="Sign in">
-  <div class="bg-cosmic flex min-h-screen items-center justify-center p-4">
-    <div class="w-full max-w-sm rounded-2xl border border-white/10 bg-white/10 p-8 text-white backdrop-blur-xl">
+  <div class="dark:bg-cosmic relative flex min-h-screen items-center justify-center bg-slate-100 p-4">
+    <div class="absolute top-4 right-4"><ThemeToggle /></div>
+    <div
+      class="w-full max-w-sm rounded-2xl border border-slate-200 bg-white/80 p-8 text-slate-900 backdrop-blur-xl dark:border-white/10 dark:bg-white/10 dark:text-white"
+    >
       <h1
-        class="mb-6 bg-gradient-to-r from-blue-200 to-purple-200 bg-clip-text text-center text-2xl font-bold text-transparent"
+        class="mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-center text-2xl font-bold text-transparent dark:from-blue-200 dark:to-purple-200"
       >
         Sign in
       </h1>
@@ -31,7 +35,7 @@ const exists = Astro.url.searchParams.get("exists") === "1";
         )
       }
       <SignInForm serverError={error} client:load />
-      <p class="mt-4 text-center text-sm text-blue-100/60">
+      <p class="mt-4 text-center text-sm text-slate-600 dark:text-blue-100/60">
         Don't have an account? <a href="/auth/signup" class="text-purple-300 hover:underline">Sign up</a>
       </p>
     </div>
