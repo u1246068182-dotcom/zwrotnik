@@ -22,21 +22,22 @@ const exists = Astro.url.searchParams.get("exists") === "1";
       </h1>
       {
         (registered || confirmed) && (
-          <p class="mb-4 rounded-lg border border-emerald-300/40 bg-emerald-500/15 p-3 text-center text-sm text-emerald-100">
+          <p class="mb-4 rounded-lg border border-emerald-500/40 bg-emerald-500/10 p-3 text-center text-sm text-emerald-800 dark:border-emerald-300/40 dark:bg-emerald-500/15 dark:text-emerald-100">
             {confirmed ? "Konto potwierdzone — zaloguj się." : "Konto utworzone — zaloguj się."}
           </p>
         )
       }
       {
         exists && (
-          <p class="mb-4 rounded-lg border border-amber-300/40 bg-amber-500/15 p-3 text-center text-sm text-amber-100">
+          <p class="mb-4 rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-center text-sm text-amber-800 dark:border-amber-300/40 dark:bg-amber-500/15 dark:text-amber-100">
             To konto już istnieje — zaloguj się poniżej.
           </p>
         )
       }
       <SignInForm serverError={error} client:load />
       <p class="mt-4 text-center text-sm text-slate-600 dark:text-blue-100/60">
-        Don't have an account? <a href="/auth/signup" class="text-purple-300 hover:underline">Sign up</a>
+        Don't have an account?{" "}
+        <a href="/auth/signup" class="text-purple-600 hover:underline dark:text-purple-300">Sign up</a>
       </p>
     </div>
   </div>
