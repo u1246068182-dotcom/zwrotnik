@@ -40,7 +40,7 @@ chroni trasy (`/dashboard`).
 
 - **Auth** (kody OTP): Supabase → SMTP Resend.
 - **Przypomnienia**: endpoint `/api/cron/send-reminders` woła **Resend API** bezpośrednio (klient service-role omija RLS, by wysłać do wszystkich należnych).
-- **Ograniczenie sandbox**: bez zweryfikowanej domeny Resend dostarcza tylko na adres właściciela konta; produkcyjna wysyłka do dowolnych użytkowników wymaga dodania własnej domeny (DNS) — planowane.
+- **Domena wysyłkowa**: `mojzwrotnik.uk` zweryfikowana w Resend (DKIM + SPF na Cloudflare DNS); nadawca `noreply@mojzwrotnik.uk`. Wysyłka działa na **dowolny** adres (sandbox zdjęty).
 
 ## Harmonogram (przypomnienia)
 
@@ -78,6 +78,5 @@ Cloudflare Workers, Supabase, Resend i GitHub Actions — w ramach darmowych pro
 
 ## Do zrobienia (produkcyjne utwardzenie)
 
-- Zweryfikowana **domena** w Resend (wysyłka maili do dowolnych użytkowników; dziś sandbox = tylko adres właściciela).
 - Rotacja sekretów użytych podczas budowy.
 - Monitoring błędów / observability.

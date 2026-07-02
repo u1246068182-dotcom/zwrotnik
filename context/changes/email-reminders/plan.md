@@ -201,6 +201,6 @@ Cykliczna wysyłka należnych przypomnień i zerowanie po wysłaniu.
 - [x] 2.5 Endpoint bez/na złym `CRON_SECRET` → 401 (curl smoke) — zweryf. na prod (z Origin: 401/401/200)
 
 #### Manual
-- [ ] 2.6 Przypomnienie na najbliższą godzinę → mail dochodzi na `stasiuklge@gmail.com`
-- [ ] 2.7 Po wysłaniu przypomnienie znika (`reminder_at=null`)
-- [ ] 2.8 Pozycja załatwiona z przypomnieniem → mail nie wychodzi
+- [x] 2.6 Przypomnienie należne → mail wysłany (Resend `sent:1`) — zweryf. end-to-end
+- [x] 2.7 Po wysłaniu przypomnienie znika (`reminder_at=null`) — zweryf. end-to-end
+- [x] 2.8 Pozycja załatwiona z przypomnieniem → mail nie wychodzi — zweryf. end-to-end
