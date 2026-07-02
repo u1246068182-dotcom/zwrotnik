@@ -1,10 +1,10 @@
 ---
 change_id: email-reminders
 title: Przypomnienia mailowe (data+godzina, 1 na pozycję)
-status: implemented
+status: archived
 created: 2026-07-01
 updated: 2026-07-02
-archived_at: null
+archived_at: 2026-07-02T04:08:03Z
 ---
 
 ## Notes
