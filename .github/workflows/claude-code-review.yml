@@ -1,0 +1,32 @@
+name: Claude Code Review
+
+# Automatyczny przegląd kodu (AI) na każdym Pull Requeście — 10xChampion (M5).
+on:
+  pull_request:
+    types: [opened, synchronize]
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      id-token: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Claude code review
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          prompt: |
+            Zrób przegląd tego Pull Requesta (repozytorium Zwrotnik — Astro + Supabase + TypeScript).
+            Skup się na: błędach, bezpieczeństwie (RLS/IDOR, walidacja, sekrety), jakości kodu i spójności
+            z istniejącymi wzorcami (PRG, zod, tokeny motywu). Bądź konkretny i zwięzły.
+            Opublikuj przegląd jako komentarz do PR-a używając `gh pr comment "$PR_NUMBER" --body`.
+        env:
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          GH_TOKEN: ${{ github.token }}
