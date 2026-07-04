@@ -1,6 +1,7 @@
 name: Claude Code Review
 
 # Automatyczny przegląd kodu (AI) na każdym Pull Requeście — 10xChampion (M5).
+# Samodzielny: pobiera diff PR, woła API Anthropic i publikuje komentarz (bez aplikacji GitHub).
 on:
   pull_request:
     types: [opened, synchronize]
@@ -11,22 +12,51 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Claude code review
-        uses: anthropics/claude-code-action@v1
-        with:
-          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          prompt: |
-            Zrób przegląd tego Pull Requesta (repozytorium Zwrotnik — Astro + Supabase + TypeScript).
-            Skup się na: błędach, bezpieczeństwie (RLS/IDOR, walidacja, sekrety), jakości kodu i spójności
-            z istniejącymi wzorcami (PRG, zod, tokeny motywu). Bądź konkretny i zwięzły.
-            Opublikuj przegląd jako komentarz do PR-a używając `gh pr comment "$PR_NUMBER" --body`.
+      - name: Pobierz diff PR
         env:
-          PR_NUMBER: ${{ github.event.pull_request.number }}
           GH_TOKEN: ${{ github.token }}
+        run: gh pr diff "${{ github.event.pull_request.number }}" > pr.diff
+
+      - name: Review AI + komentarz
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          python3 - <<'PY'
+          import os, json, urllib.request, subprocess
+
+          diff = open("pr.diff", encoding="utf-8", errors="replace").read()[:60000]
+          prompt = (
+              "Jesteś recenzentem kodu w projekcie Zwrotnik (Astro + Supabase + TypeScript). "
+              "Zrób zwięzły przegląd poniższego diffa Pull Requesta. Skup się na: błędach, "
+              "bezpieczeństwie (RLS/IDOR, walidacja, sekrety), jakości i spójności ze wzorcami "
+              "(PRG, zod, tokeny motywu). Wypunktuj uwagi; jeśli wszystko OK, napisz to wprost.\n\n"
+              "```diff\n" + diff + "\n```"
+          )
+          body = {
+              "model": "claude-sonnet-4-6",
+              "max_tokens": 1500,
+              "messages": [{"role": "user", "content": prompt}],
+          }
+          req = urllib.request.Request(
+              "https://api.anthropic.com/v1/messages",
+              data=json.dumps(body).encode(),
+              headers={
+                  "x-api-key": os.environ["ANTHROPIC_API_KEY"],
+                  "anthropic-version": "2023-06-01",
+                  "content-type": "application/json",
+              },
+          )
+          resp = json.loads(urllib.request.urlopen(req).read())
+          text = "".join(b.get("text", "") for b in resp.get("content", [])) or "(brak treści)"
+          comment = "🤖 **Automatyczny code review (Claude)**\n\n" + text
+          subprocess.run(["gh", "pr", "comment", os.environ["PR"], "--body", comment], check=True)
+          print("Komentarz opublikowany na PR.")
+          PY
